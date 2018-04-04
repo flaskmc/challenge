@@ -157,7 +157,31 @@
     this.prefs = prefs;
 
     this.search = function(cb) {
-      // TODO: Implement this.
+      var position = prefs.position;
+      var url = "http://0.0.0.0:5000/search"; //render url dynamically
+      $.ajax({
+        dataType: "json",
+        url: url, //"http://0.0.0.0:5000/search", //?lat="+ position.lat + "&" + "lng=" + position.lng + "&" + "radius=aaa",
+        data: {lat: position.lat, lng: position.lng, radius: prefs.radius, count: prefs.count, tags: prefs.tags},
+        async: true,
+        success: function(data){
+          var products=[];
+          
+          $.each(data, function(index) {
+            var shop = {lat:data[index].Lat, lng:data[index].Lng};
+            var product = {popularity:data[index].Popularity, title:data[index].Title, shop:shop};
+            products.push(product);
+          });
+          cb("", products);
+        },
+        error: function(data){
+          if (data['responseJSON']!=null) {
+            cb(data['responseJSON']['error']['message'],null);
+            return;
+          }
+        }
+        
+      });
     };
   };
 
