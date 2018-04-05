@@ -7,8 +7,11 @@ import proximityhash
 
 class GeohashLocator(ALocator):
     """ A class which can be used to locate points within specified radius of a center
-        This particular type of Locator uses geohashing for fast searches. However, results usually include locations which are slightly more distant than desired.
+        This particular type of Locator uses geohashing for fast searches.
+        However, results usually also include locations which are slightly more distant than desired.
         Consider using HybridLocator which runs a search with GeohashLocator and further filters the initial larger set of results with a more precise distance based BasicLocator.
+        In addition, geohash values of close locations differ significantly around polar and equatorial regions as well as prime meridian and +-180 meridians.
+        Caonsider using HybridLocator which falls back to using BasicLocator when a search is being conducted around the specified regions.
     """
     def __init__(self, itemCollection):
         self.container = GeohashContainer(itemCollection)
