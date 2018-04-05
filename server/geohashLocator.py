@@ -14,12 +14,15 @@ class GeohashLocator(ALocator):
         Consider using HybridLocator which falls back to using BasicLocator when a search is being conducted around the specified regions.
     """
     def __init__(self, itemCollection):
+        if itemCollection == None:
+            raise ValueError()
         self.container = GeohashContainer(itemCollection)
         #self.base32 = ['0','1','2','3','4','5','6','7','8','9','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z']
 
     def Search(self, lat, lng, radiusMeters):
         """ Returns locations which are within the specified distance of the location. """
-        
+        if abs(lat)>90 or abs(lng)>180 or radiusMeters<=0:
+            raise ValueError
         #radius is increased by 10% so that hashes are created for a larger area. Ultimately this does not end in out of range results since there is a final filtering step
         #create_geohash method returns a set of geohash values which represent the specified area (usually, resulting geohashes represent a sligthtly larger area)
         proximityHashString = proximityhash.create_geohash(lat, lng, radiusMeters*1.1, 7, True)
