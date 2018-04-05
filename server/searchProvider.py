@@ -18,37 +18,29 @@ class SearchProvider(object):
         #get elements within the search radius
         filteredResults = self.Locator.Search(lat,lng,radiusMeters)
 
+        #If any tags were selected, filter elements which do not share at least one tag with selectedTags
         if len(selectedTags)>0:
             filteredResults = [ShopLocation(shop,location) for location, shop in filteredResults if not shop.tags.isdisjoint(selectedTags)]
 
-        print('tagfilter complete')
-        print(len(filteredResults))
-        allresults = SortedListWithKey(key=lambda val: -1*float(val.Product.popularity))
+        #Get the 
         results = SortedListWithKey(key=lambda val: -1*float(val.Product.popularity))
         for item in filteredResults:
+            #results = results[0:itemCount] #might be useful if concerns related to memory take precedence over processing time
             
+            #get most popular products of this shop
             topProducts = item.Shop.products[0:itemCount]
-            print('top product count')
-            print(len(topProducts))
+
             for product in topProducts:
+                #check at which position this element would be if inserted into the aggregated popular products list
                 index = results.bisect_right(ShopProduct(item.Shop,product))
-                allresults.add(ShopProduct(item.Shop,product))
                 if index < itemCount:
+                    #the product is higher in popularity than the current threshold 
                     results.add(ShopProduct(item.Shop,product))
                 else:
+                    #the aggregated list already contains enough number of products which are more popular than the one being considered
                     break
         results = results[0:itemCount]
 
-        print('itemCcount filter complete')
-        print(len(results))
-
-        for result in results:
-            print(result.Product.popularity, result.Shop.name)
-
-        print("=========")
-        #for result in allresults:
-            #print(result.Product.popularity, result.Shop.name)
-
-        #results is a SortedListWithKey consisting of (product, shop) tuples
+        #results is a SortedListWithKey consisting of ShopProduct objects
 
         return results
