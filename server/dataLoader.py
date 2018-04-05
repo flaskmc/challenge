@@ -4,9 +4,9 @@ from coordinateHelper import CoordinateHelper
 from shopLocation import ShopLocation
 
 class CsvDataLoader(object):
-    """ A class which is used to load csv files into a set of entities and make object level associations between individual entities"""
+    """ A class which is used to load csv files into a set of entities/models and make object level associations between individual entities/models"""
     def Load(self, shopsPath, tagsPath, taggingsPath, productsPath):
-        """ Loads provided csv files into entities. Returns a list of ShopLocation objects """
+        """ Loads provided csv files into entities/models. Returns a list of ShopLocation objects """
         
         reader = CsvReader()
         #read files into entity collections
