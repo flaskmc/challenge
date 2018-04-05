@@ -38,5 +38,6 @@ class CsvDataLoader(object):
                 continue
             else:
                 shopLocationCollection.append(ShopLocation(shop,coordinates))
-    
+        
+        #return a list of ShopLocation objects
         return shopLocationCollection
