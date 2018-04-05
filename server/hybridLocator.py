@@ -17,7 +17,7 @@ class HybridLocator(ALocator):
         #A better aproach could be setting search origin's longitude to 0 and checking whether it is closer than the radius. Then apply the same principle to other edge lats and lngs to see if the circle of interest intersects with those
         if ((lat < 89 and lat > 1) or (lat < -1 and lat > -89)) and ((lng < 179 and lng > 1) or (lng < -1 and lng > -179)):
             geohashResults = self.geohashLocator.Search(lat, lng, radiusMeters)
-            #geohashResuls contains a list of (Location, shop) tuples.
+            #geohashResuls contains a list of ShopLocation objects
             #Geohash result collection is likely to include some extra items, so we make a final check on the result collection
             return self.basicLocator.SearchInIterable(lat,lng,radiusMeters,geohashResults)
         else:
