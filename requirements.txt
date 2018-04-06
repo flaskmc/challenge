@@ -6,3 +6,10 @@ itsdangerous==0.24
 py==1.4.27
 pytest==2.7.0
 wsgiref==0.1.2
+sortedcontainers==1.5.9
+PyTrie==0.3
+pytest==3.5.0
+proximityhash==1.0.1
+Geohash==1.0
+geopy==1.12.0
+Flask-Cors==3.0.3
