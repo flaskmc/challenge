@@ -35,6 +35,7 @@ class GeohashLocator(ALocator):
         return results
 
     def Add(self, key, value):
+        """ Adds a new item to its underlying container. Can be utilized when the underlying container needs to be updated on the fly"""
         self.container.Add(key, value)
 
 class GeohashContainer(object):
